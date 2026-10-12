@@ -9,6 +9,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
+ * Encargada de gestionar la conexión a la base de datos.
+ * En el patrón MVC, forma parte de la capa de modelo y proporciona el acceso a los datos para los DAOs.
  *
  * @author cmendieta
  */

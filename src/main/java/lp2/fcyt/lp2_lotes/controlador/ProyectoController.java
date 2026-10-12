@@ -16,6 +16,8 @@ import lp2.fcyt.lp2_lotes.modelo.tabla.ProyectoTablaModel;
 import lp2.fcyt.lp2_lotes.vista.ProyectoUI;
 
 /**
+ * Controlador para la gestión de proyectos.
+ * En el patrón MVC, actúa como intermediario entre la vista (ProyectoUI) y el modelo (DAO y entidades), gestionando eventos y lógica de negocio.
  *
  * @author cmendieta
  */
@@ -44,6 +46,9 @@ public class ProyectoController implements ActionListener {
         this.gui.setVisible(true);
     }
 
+    /**
+     * Obtiene y muestra la lista de proyectos en la tabla de la vista.
+     */
     void listar(String valor) {
         List<Proyecto> listado = dao.listado(valor);
         modelo.setLista(listado);
@@ -51,6 +56,9 @@ public class ProyectoController implements ActionListener {
         gui.tabla.updateUI();
     }
 
+    /**
+     * Carga los datos del proyecto seleccionado desde la tabla hacia los campos del formulario.
+     */
     void getSeleccionFila(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
             return;
@@ -63,6 +71,9 @@ public class ProyectoController implements ActionListener {
         gui.txtNombre.setText(valorSeleccionado.getNombre());
     }
 
+    /**
+     * Construye y devuelve un objeto Proyecto a partir de los datos ingresados en el formulario.
+     */
     Proyecto getProyectoForm() {
         Proyecto proyecto = new Proyecto();
         if(accion != 'N'){
@@ -73,11 +84,17 @@ public class ProyectoController implements ActionListener {
         return proyecto;
     }
     
+    /**
+     * Limpia los campos del formulario de proyecto.
+     */
     void limpiar(){
         gui.txtCodigo.setText("");
         gui.txtNombre.setText("");
     }
     
+    /**
+     * Valida que los datos obligatorios del formulario estén completos.
+     */
     boolean validarDatos(){
         boolean vacio = false;
         if(gui.txtNombre.getText().isEmpty()){

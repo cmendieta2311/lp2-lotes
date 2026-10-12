@@ -6,6 +6,8 @@ package lp2.fcyt.lp2_lotes;
 import lp2.fcyt.lp2_lotes.vista.GUIPrincipal;
 
 /**
+ * Clase principal (punto de entrada de la aplicación).
+ * En el patrón MVC, inicia la vista principal (GUIPrincipal) y pone en marcha la interfaz gráfica.
  *
  * @author cmendieta
  */

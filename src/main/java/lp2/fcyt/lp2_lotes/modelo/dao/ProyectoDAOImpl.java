@@ -15,6 +15,8 @@ import java.util.List;
 import lp2.fcyt.lp2_lotes.modelo.Conexion;
 
 /**
+ * Implementación del DAO para la entidad Proyecto.
+ * En el patrón MVC, pertenece a la capa de modelo y se encarga de realizar las operaciones de acceso a datos en la tabla proyectos.
  *
  * @author cmendieta
  */

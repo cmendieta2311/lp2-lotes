@@ -11,6 +11,8 @@ import lp2.fcyt.lp2_lotes.modelo.entidad.Cliente;
 
 
 /**
+ * Interfaz DAO para la entidad Cliente.
+ * En el patrón MVC, define el contrato de acceso a datos para Cliente dentro de la capa de modelo.
  *
  * @author cmendieta
  */

@@ -8,6 +8,8 @@ import java.util.List;
 import lp2.fcyt.lp2_lotes.modelo.entidad.Proyecto;
 
 /**
+ * Interfaz DAO para la entidad Proyecto.
+ * En el patrón MVC, define el contrato de acceso a datos para Proyecto dentro de la capa de modelo.
  *
  * @author cmendieta
  */

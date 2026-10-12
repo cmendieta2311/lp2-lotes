@@ -16,6 +16,8 @@ import lp2.fcyt.lp2_lotes.modelo.tabla.ClienteTablaModel;
 import lp2.fcyt.lp2_lotes.vista.ClienteUI;
 
 /**
+ * Controlador para la gestión de clientes.
+ * En el patrón MVC, actúa como intermediario entre la vista (ClienteUI) y el modelo (DAO y entidades), gestionando eventos y lógica de negocio.
  *
  * @author cmendieta
  */
@@ -44,6 +46,9 @@ public class ClienteController implements ActionListener {
         this.gui.setVisible(true);
     }
 
+    /**
+     * Obtiene y muestra la lista de clientes en la tabla de la vista.
+     */
     void listar(String valor) {
         List<Cliente> listado = dao.listado(valor);
         modelo.setLista(listado);
@@ -51,6 +56,9 @@ public class ClienteController implements ActionListener {
         gui.tabla.updateUI();
     }
 
+    /**
+     * Carga los datos del cliente seleccionado desde la tabla hacia los campos del formulario.
+     */
     void getSeleccionFila(ListSelectionEvent e) {
         if (e.getValueIsAdjusting()) {
             return;
@@ -71,6 +79,9 @@ public class ClienteController implements ActionListener {
     }
 
     //Recupera los datos del JtextField
+    /**
+     * Construye y devuelve un objeto Cliente a partir de los datos ingresados en el formulario.
+     */
     Cliente getClienteForm() {
         Cliente cliente = new Cliente();
         if (accion != 'N') {
@@ -86,6 +97,9 @@ public class ClienteController implements ActionListener {
         return cliente;
     }
 
+    /**
+     * Limpia los campos del formulario de cliente.
+     */
     void limpiar() {
         gui.txtCodigo.setText("");
         gui.txtNombre.setText("");
@@ -96,6 +110,9 @@ public class ClienteController implements ActionListener {
         gui.txtNroDocumento.setText("");
     }
 
+    /**
+     * Valida que los datos obligatorios del formulario estén completos.
+     */
     boolean validarDatos() {
         boolean vacio = false;
         if (gui.txtNombre.getText().isEmpty()) {

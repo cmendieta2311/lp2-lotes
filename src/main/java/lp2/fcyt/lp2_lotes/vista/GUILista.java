@@ -5,6 +5,8 @@
 package lp2.fcyt.lp2_lotes.vista;
 
 /**
+ * Ventana de lista genérica para mostrar resultados en tabla.
+ * En el patrón MVC, pertenece a la capa de vista y permite visualizar listas de entidades para su selección.
  *
  * @author cmendieta
  */

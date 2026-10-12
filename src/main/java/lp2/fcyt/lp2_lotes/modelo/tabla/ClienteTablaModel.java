@@ -9,6 +9,8 @@ import javax.swing.table.AbstractTableModel;
 import lp2.fcyt.lp2_lotes.modelo.entidad.Cliente;
 
 /**
+ * Modelo de tabla para mostrar clientes en la vista.
+ * En el patrón MVC, conecta la capa de modelo (lista de Cliente) con la tabla de la interfaz gráfica.
  *
  * @author cmendieta
  */

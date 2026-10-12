@@ -7,6 +7,8 @@ package lp2.fcyt.lp2_lotes.modelo.dao;
 import java.util.List;
 
 /**
+ * Interfaz genérica para operaciones CRUD.
+ * En el patrón MVC, define el contrato común que deben cumplir los DAOs de la capa de modelo para acceder y manipular datos.
  *
  * @author cmendieta
  */

@@ -5,6 +5,8 @@
 package lp2.fcyt.lp2_lotes.vista;
 
 /**
+ * Ventana de interfaz para la gestión de proyectos.
+ * En el patrón MVC, pertenece a la capa de vista y muestra el formulario y la tabla para que el controlador gestione las operaciones sobre proyectos.
  *
  * @author cmendieta
  */

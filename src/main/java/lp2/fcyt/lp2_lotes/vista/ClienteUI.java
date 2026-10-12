@@ -5,6 +5,8 @@
 package lp2.fcyt.lp2_lotes.vista;
 
 /**
+ * Ventana de interfaz para la gestión de clientes.
+ * En el patrón MVC, pertenece a la capa de vista y muestra el formulario y la tabla para que el controlador gestione las operaciones sobre clientes.
  *
  * @author cmendieta
  */

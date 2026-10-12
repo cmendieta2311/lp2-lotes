@@ -8,6 +8,8 @@ import lp2.fcyt.lp2_lotes.controlador.ClienteController;
 import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
 
 /**
+ * Ventana principal de la aplicación.
+ * En el patrón MVC, pertenece a la capa de vista y sirve como punto de acceso a las operaciones de mantenimiento (cliente, proyecto, etc.).
  *
  * @author cmendieta
  */

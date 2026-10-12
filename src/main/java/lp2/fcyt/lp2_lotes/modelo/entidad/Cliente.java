@@ -5,6 +5,8 @@
 package lp2.fcyt.lp2_lotes.modelo.entidad;
 
 /**
+ * Entidad que representa a un cliente.
+ * En el patrón MVC, pertenece a la capa de modelo (entidades) y encapsula los datos de un registro de la tabla clientes.
  *
  * @author cmendieta
  */
