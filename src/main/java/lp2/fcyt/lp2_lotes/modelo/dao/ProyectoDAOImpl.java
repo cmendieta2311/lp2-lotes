@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package lp2.fcyt.lp2_lotes.modelo;
+package lp2.fcyt.lp2_lotes.modelo.dao;
 
+import lp2.fcyt.lp2_lotes.modelo.entidad.Proyecto;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,12 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import lp2.fcyt.lp2_lotes.modelo.Conexion;
 
 /**
  *
  * @author cmendieta
  */
-public class ProyectoDAOImpl implements ProyectoDAO {
+public class ProyectoDAOImpl implements CrudDAO<Proyecto> {
 
     @Override
     public Proyecto buscarPorID(int id) {

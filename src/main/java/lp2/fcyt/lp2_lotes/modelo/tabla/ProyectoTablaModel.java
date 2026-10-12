@@ -6,7 +6,7 @@ package lp2.fcyt.lp2_lotes.modelo.tabla;
 
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
-import lp2.fcyt.lp2_lotes.modelo.Proyecto;
+import lp2.fcyt.lp2_lotes.modelo.entidad.Proyecto;
 
 /**
  *

@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
-import lp2.fcyt.lp2_lotes.modelo.Proyecto;
-import lp2.fcyt.lp2_lotes.modelo.ProyectoDAO;
-import lp2.fcyt.lp2_lotes.modelo.ProyectoDAOImpl;
+import lp2.fcyt.lp2_lotes.modelo.dao.CrudDAO;
+import lp2.fcyt.lp2_lotes.modelo.entidad.Proyecto;
+import lp2.fcyt.lp2_lotes.modelo.dao.ProyectoDAOImpl;
 import lp2.fcyt.lp2_lotes.modelo.tabla.ProyectoTablaModel;
 import lp2.fcyt.lp2_lotes.vista.ProyectoUI;
 
@@ -21,7 +21,7 @@ import lp2.fcyt.lp2_lotes.vista.ProyectoUI;
  */
 public class ProyectoController implements ActionListener {
 
-    ProyectoDAO dao;
+    CrudDAO<Proyecto> dao;
     ProyectoUI gui;
     ProyectoTablaModel modelo;
     char accion = 'N';
