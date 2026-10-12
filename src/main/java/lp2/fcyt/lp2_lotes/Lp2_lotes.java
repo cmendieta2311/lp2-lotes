@@ -3,7 +3,7 @@
  */
 package lp2.fcyt.lp2_lotes;
 
-import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
+import lp2.fcyt.lp2_lotes.vista.GUIPrincipal;
 
 /**
  *
@@ -12,6 +12,7 @@ import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
 public class Lp2_lotes {
 
     public static void main(String[] args) {
-        ProyectoController p = new ProyectoController();
+        GUIPrincipal ventana = new GUIPrincipal();
+        ventana.setVisible(true);
     }
 }
