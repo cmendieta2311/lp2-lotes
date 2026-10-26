@@ -5,6 +5,7 @@
 package lp2.fcyt.lp2_lotes.vista;
 
 import lp2.fcyt.lp2_lotes.controlador.ClienteController;
+import lp2.fcyt.lp2_lotes.controlador.ManzanaController;
 import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
 
 /**
@@ -40,6 +41,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
 
@@ -64,6 +66,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jMenuItem2.setText("Proyecto");
         jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
         jMenu2.add(jMenuItem2);
+
+        jMenuItem5.setText("Manzana");
+        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
+        jMenu2.add(jMenuItem5);
 
         jMenuBar1.add(jMenu2);
 
@@ -100,6 +106,11 @@ public class GUIPrincipal extends javax.swing.JFrame {
         ProyectoController p = new ProyectoController();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+         ManzanaController p = new ManzanaController();
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -135,5 +146,6 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     // End of variables declaration//GEN-END:variables
 }
