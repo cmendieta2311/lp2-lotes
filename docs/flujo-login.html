@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flujo de login — lp2_lotes</title>
+<style>
+  :root {
+    --bg: #fafaf9; --fg: #1c1917; --muted: #57534e; --line: #a8a29e;
+    --box: #ffffff; --box-stroke: #44403c;
+    --view: #dbeafe; --ctrl: #fef3c7; --model: #dcfce7; --db: #ede9fe; --main: #f5f5f4;
+    --note: #fff7ed; --note-stroke: #fdba74; --frame: #78716c; --accent: #b91c1c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1917; --fg: #f5f5f4; --muted: #a8a29e; --line: #57534e;
+      --box: #292524; --box-stroke: #d6d3d1;
+      --view: #1e3a5f; --ctrl: #4a3b0f; --model: #14432a; --db: #352a5c; --main: #3a3633;
+      --note: #3b2a1a; --note-stroke: #c2410c; --frame: #a8a29e; --accent: #f87171;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1160px; margin: 0 auto; padding: 32px 20px 64px; }
+  h1 { font-size: 1.7rem; margin: 0 0 4px; }
+  h2 { font-size: 1.2rem; margin: 40px 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .diagram { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px;
+             background: var(--box); padding: 8px; }
+  svg { display: block; min-width: 1080px; width: 100%; height: auto; }
+  svg text { fill: var(--fg); font-family: inherit; }
+  .hdr { stroke: var(--box-stroke); stroke-width: 1.2; }
+  .life { stroke: var(--line); stroke-dasharray: 5 5; }
+  .msg { stroke: var(--fg); stroke-width: 1.4; fill: none; }
+  .ret { stroke: var(--fg); stroke-width: 1.2; stroke-dasharray: 6 4; fill: none; }
+  .lbl { font-size: 13px; }
+  .code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: 12.5px; }
+  .note { fill: var(--note); stroke: var(--note-stroke); }
+  .frame { fill: none; stroke: var(--frame); stroke-width: 1.2; }
+  .frame-tag { fill: var(--frame); }
+  .frame-tag-text { fill: var(--bg) !important; font-size: 12px; font-weight: 700; }
+  .guard { font-size: 12.5px; font-style: italic; fill: var(--muted) !important; }
+  .block { stroke: var(--accent); stroke-width: 2; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; margin: 12px 0 0; font-size: 14px; color: var(--muted); }
+  .legend span::before { content: ""; display: inline-block; width: 14px; height: 14px;
+                         border-radius: 3px; margin-right: 6px; vertical-align: -2px;
+                         border: 1px solid var(--box-stroke); background: var(--c); }
+  ol li, ul li { margin-bottom: 6px; }
+  code { font-family: ui-monospace, "JetBrains Mono", monospace; font-size: .9em;
+         background: color-mix(in srgb, var(--line) 25%, transparent); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--box); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Flujo de login: main, controlador, DAO y PostgreSQL</h1>
+  <p class="sub">Diagrama de secuencia del inicio de sesión en <code>lp2_lotes</code> siguiendo el patrón MVC + DAO.</p>
+
+  <div class="diagram">
+  <svg viewBox="0 0 1080 1010" role="img" aria-label="Diagrama de secuencia del login">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+      </marker>
+      <marker id="open" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="9" markerHeight="9" orient="auto">
+        <path d="M0,0 L10,5 L0,10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </marker>
+    </defs>
+    <g style="color: var(--fg)">
+
+    <!-- Lifelines -->
+    <g class="life">
+      <line x1="80"  y1="64" x2="80"  y2="990"/>
+      <line x1="260" y1="64" x2="260" y2="990"/>
+      <line x1="440" y1="64" x2="440" y2="990"/>
+      <line x1="620" y1="64" x2="620" y2="990"/>
+      <line x1="800" y1="64" x2="800" y2="990"/>
+      <line x1="990" y1="64" x2="990" y2="990"/>
+    </g>
+
+    <!-- Participants -->
+    <g text-anchor="middle" font-weight="600" font-size="14">
+      <rect class="hdr" x="15"  y="18" width="130" height="46" rx="6" style="fill:var(--main)"/>
+      <text x="80"  y="40">main</text><text x="80" y="56" font-size="11" font-weight="400">Lp2_lotes</text>
+      <rect class="hdr" x="180" y="18" width="160" height="46" rx="6" style="fill:var(--ctrl)"/>
+      <text x="260" y="40">LoginController</text><text x="260" y="56" font-size="11" font-weight="400">controlador</text>
+      <rect class="hdr" x="370" y="18" width="140" height="46" rx="6" style="fill:var(--view)"/>
+      <text x="440" y="40">GUILogin</text><text x="440" y="56" font-size="11" font-weight="400">vista</text>
+      <rect class="hdr" x="540" y="18" width="160" height="46" rx="6" style="fill:var(--model)"/>
+      <text x="620" y="40">UsuariosDAOImpl</text><text x="620" y="56" font-size="11" font-weight="400">modelo / DAO</text>
+      <rect class="hdr" x="730" y="18" width="140" height="46" rx="6" style="fill:var(--db)"/>
+      <text x="800" y="40">PostgreSQL</text><text x="800" y="56" font-size="11" font-weight="400">tabla usuarios</text>
+      <rect class="hdr" x="920" y="18" width="140" height="46" rx="6" style="fill:var(--model)"/>
+      <text x="990" y="40">Sesion</text><text x="990" y="56" font-size="11" font-weight="400">modelo (static)</text>
+    </g>
+
+    <!-- 1. Construction -->
+    <line class="msg" x1="80" y1="100" x2="258" y2="100" marker-end="url(#arrow)"/>
+    <text class="code" x="170" y="93" text-anchor="middle">new LoginController()</text>
+
+    <line class="msg" x1="260" y1="136" x2="438" y2="136" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="129" text-anchor="middle">new GUILogin(null, true)</text>
+
+    <line class="msg" x1="260" y1="172" x2="438" y2="172" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="165" text-anchor="middle">addActionListener(this)</text>
+
+    <line class="msg" x1="260" y1="208" x2="438" y2="208" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="201" text-anchor="middle">setVisible(true)</text>
+
+    <!-- Blocked marker -->
+    <line class="block" x1="260" y1="214" x2="260" y2="640"/>
+    <rect class="note" x="96" y="222" width="152" height="40" rx="4"/>
+    <text class="lbl" x="104" y="238">Diálogo modal: el hilo</text>
+    <text class="lbl" x="104" y="254">queda bloqueado acá</text>
+
+    <!-- 2. User interaction -->
+    <rect class="note" x="330" y="276" width="220" height="40" rx="4"/>
+    <text class="lbl" x="440" y="292" text-anchor="middle">El usuario escribe email y</text>
+    <text class="lbl" x="440" y="308" text-anchor="middle">contraseña, y hace clic en Ingresar</text>
+
+    <line class="msg" x1="440" y1="340" x2="262" y2="340" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="333" text-anchor="middle">actionPerformed(e)</text>
+
+    <line class="msg" x1="260" y1="376" x2="438" y2="376" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="369" text-anchor="middle">getText() / getPassword()</text>
+
+    <line class="msg" x1="260" y1="412" x2="618" y2="412" marker-end="url(#arrow)"/>
+    <text class="code" x="440" y="405" text-anchor="middle">login(Usuarios{email, password})</text>
+
+    <line class="msg" x1="620" y1="448" x2="798" y2="448" marker-end="url(#arrow)"/>
+    <text class="code" x="710" y="441" text-anchor="middle">SELECT … WHERE email=?</text>
+    <text class="code" x="710" y="466" text-anchor="middle">AND password_hash=md5(?)</text>
+    <text class="code" x="710" y="482" text-anchor="middle">AND activo=true</text>
+
+    <line class="ret" x1="800" y1="506" x2="622" y2="506" marker-end="url(#open)"/>
+    <text class="code" x="710" y="499" text-anchor="middle">ResultSet</text>
+
+    <!-- alt: credentials OK / wrong -->
+    <rect class="frame" x="200" y="524" width="870" height="230" rx="4"/>
+    <path class="frame-tag" d="M200,524 h44 v16 l-8,8 h-36 z"/>
+    <text class="frame-tag-text" x="210" y="539">alt</text>
+    <text class="guard" x="256" y="540">[hay una fila: credenciales válidas]</text>
+
+    <line class="msg" x1="620" y1="566" x2="988" y2="566" marker-end="url(#arrow)"/>
+    <text class="code" x="805" y="559" text-anchor="middle">inciarSession(usuario)</text>
+
+    <line class="ret" x1="620" y1="600" x2="262" y2="600" marker-end="url(#open)"/>
+    <text class="code" x="440" y="593" text-anchor="middle">true</text>
+
+    <line class="msg" x1="260" y1="634" x2="438" y2="634" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="627" text-anchor="middle">dispose()</text>
+    <text class="lbl" x="452" y="638" fill="var(--accent)" style="fill:var(--accent)">→ se cierra el diálogo y se desbloquea setVisible</text>
+
+    <line x1="200" y1="656" x2="1070" y2="656" class="frame" stroke-dasharray="6 4"/>
+    <text class="guard" x="210" y="674">[no hay fila: credenciales incorrectas]</text>
+
+    <line class="ret" x1="620" y1="696" x2="262" y2="696" marker-end="url(#open)"/>
+    <text class="code" x="440" y="689" text-anchor="middle">false</text>
+
+    <line class="msg" x1="260" y1="730" x2="438" y2="730" marker-end="url(#arrow)"/>
+    <text class="code" x="350" y="723" text-anchor="middle">JOptionPane + limpia contraseña</text>
+    <text class="lbl" x="452" y="734" style="fill:var(--muted)">el diálogo sigue abierto y espera otro intento</text>
+
+    <!-- 3. Back in main -->
+    <line class="ret" x1="260" y1="790" x2="82" y2="790" marker-end="url(#open)"/>
+    <text class="lbl" x="170" y="783" text-anchor="middle">el constructor retorna</text>
+
+    <line class="msg" x1="80" y1="826" x2="988" y2="826" marker-end="url(#arrow)"/>
+    <text class="code" x="535" y="819" text-anchor="middle">Sesion.estaLogeado()</text>
+
+    <line class="ret" x1="990" y1="860" x2="82" y2="860" marker-end="url(#open)"/>
+    <text class="code" x="535" y="853" text-anchor="middle">true / false</text>
+
+    <!-- alt: open main window or exit -->
+    <rect class="frame" x="20" y="878" width="560" height="96" rx="4"/>
+    <path class="frame-tag" d="M20,878 h44 v16 l-8,8 h-36 z"/>
+    <text class="frame-tag-text" x="30" y="893">alt</text>
+    <text class="guard" x="76" y="894">[true]</text>
+    <text class="code" x="76" y="914">new GUIPrincipal().setVisible(true)</text>
+    <line x1="20" y1="928" x2="580" y2="928" class="frame" stroke-dasharray="6 4"/>
+    <text class="guard" x="30" y="948">[false: se cerró el login sin ingresar]</text>
+    <text class="code" x="76" y="966">System.exit(0)</text>
+
+    </g>
+  </svg>
+  </div>
+
+  <div class="legend">
+    <span style="--c: var(--main)">Punto de entrada</span>
+    <span style="--c: var(--ctrl)">Controlador</span>
+    <span style="--c: var(--view)">Vista</span>
+    <span style="--c: var(--model)">Modelo</span>
+    <span style="--c: var(--db)">Base de datos</span>
+  </div>
+
+  <h2>Qué hay que entender</h2>
+  <ol>
+    <li><strong>El diálogo modal bloquea.</strong> <code>setVisible(true)</code> sobre un <code>JDialog</code> modal no retorna hasta que se llama a <code>dispose()</code> o se cierra la ventana. Por eso el <code>main</code> puede consultar la sesión justo después de <code>new LoginController()</code>.</li>
+    <li><strong><code>Sesion</code> es el punto de encuentro.</strong> El DAO guarda ahí el usuario autenticado. <code>GUIPrincipal</code> lo lee con <code>Sesion.getUsuario()</code> sin saber cómo se validó.</li>
+    <li><strong>Cada capa tiene una sola responsabilidad.</strong> La vista solo muestra componentes, el controlador coordina, el DAO accede a la base y el <code>main</code> decide qué ventana abrir.</li>
+    <li><strong>El controlador no abre <code>GUIPrincipal</code>.</strong> Así el login no depende de la ventana principal y se puede reutilizar.</li>
+  </ol>
+
+  <h2>Código de referencia</h2>
+  <pre><code>// Lp2_lotes.main
+new LoginController();          // vuelve cuando se cierra el login
+if (Sesion.estaLogeado()) {
+    new GUIPrincipal().setVisible(true);
+} else {
+    System.exit(0);
+}</code></pre>
+
+  <h2>Usuario de prueba</h2>
+  <p>El login compara con <code>md5(?)</code>, así que la contraseña se guarda con <code>md5</code>:</p>
+  <pre><code>INSERT INTO usuarios(nombre, email, password_hash, rol)
+VALUES ('Admin', 'admin@fcyt.edu.py', md5('12345'), 'ADMIN');</code></pre>
+  <p class="sub"><code>md5</code> sirve para el ejemplo didáctico, pero no es seguro para contraseñas reales. El siguiente paso es usar bcrypt.</p>
+</main>
+</body>
+</html>

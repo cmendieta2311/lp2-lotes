@@ -6,6 +6,7 @@ package lp2.fcyt.lp2_lotes.vista;
 
 import lp2.fcyt.lp2_lotes.controlador.ClienteController;
 import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
+import lp2.fcyt.lp2_lotes.modelo.dao.Sesion;
 
 /**
  * Ventana principal de la aplicación.
@@ -18,10 +19,18 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUIPrincipal.class.getName());
 
     /**
-     * Creates new form GUIPrincipal
+     * Crea la ventana principal. Solo se abre después de un login exitoso,
+     * por eso puede leer el usuario guardado en Sesion.
      */
     public GUIPrincipal() {
         initComponents();
+        // Centrar en pantalla (se usa al restaurar la ventana) e iniciar maximizada
+        this.setLocationRelativeTo(null);
+        this.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
+        // Mostrar en el título el usuario que inició sesión
+        Sesion sesion = new Sesion();
+        System.out.println("USUARIO:" + sesion.getUsuario().getNombre());
+        this.setTitle("Usuario:"+sesion.getUsuario().getNombre());
     }
 
     /**
@@ -41,6 +50,13 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem8 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMenu7 = new javax.swing.JMenu();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,6 +85,28 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jMenu3.setText("Lote");
         jMenuBar1.add(jMenu3);
+
+        jMenu6.setText("Reporte");
+
+        jMenuItem5.setText("Lotes por estado");
+        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
+        jMenu6.add(jMenuItem5);
+
+        jMenuItem8.setText("Resumen por proyecto");
+        jMenu6.add(jMenuItem8);
+        jMenu6.add(jSeparator1);
+
+        jMenu7.setText("Comercial");
+
+        jMenuItem6.setText("Ventas por periodo");
+        jMenu7.add(jMenuItem6);
+
+        jMenuItem7.setText("Ventas por vendedor");
+        jMenu7.add(jMenuItem7);
+
+        jMenu6.add(jMenu7);
+
+        jMenuBar1.add(jMenu6);
 
         jMenu4.setText("Ayuda");
         jMenuBar1.add(jMenu4);
@@ -100,6 +138,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         ProyectoController p = new ProyectoController();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -130,10 +172,17 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

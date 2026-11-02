@@ -20,6 +20,8 @@ public class GUILista extends javax.swing.JDialog {
     public GUILista(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        // Center the dialog on screen
+        this.setLocationRelativeTo(null);
     }
 
     /**
