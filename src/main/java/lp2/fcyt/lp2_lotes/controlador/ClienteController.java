@@ -30,7 +30,7 @@ public class ClienteController implements ActionListener {
 
     public ClienteController() {
         this.dao = new ClienteDAOImpl();
-        this.gui = new ClienteUI(null, true);
+        this.gui = new ClienteUI(null, false);
         this.modelo = new ClienteTablaModel();
         // escuchar eventos de los botones
 

@@ -5,6 +5,7 @@
 package lp2.fcyt.lp2_lotes.vista;
 
 import lp2.fcyt.lp2_lotes.controlador.ClienteController;
+import lp2.fcyt.lp2_lotes.controlador.ManzanaController;
 import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
 import lp2.fcyt.lp2_lotes.modelo.dao.Sesion;
 
@@ -49,9 +50,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu7 = new javax.swing.JMenu();
@@ -81,6 +83,10 @@ public class GUIPrincipal extends javax.swing.JFrame {
         jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
         jMenu2.add(jMenuItem2);
 
+        jMenuItem5.setText("Manzana");
+        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
+        jMenu2.add(jMenuItem5);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Lote");
@@ -88,9 +94,8 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jMenu6.setText("Reporte");
 
-        jMenuItem5.setText("Lotes por estado");
-        jMenuItem5.addActionListener(this::jMenuItem5ActionPerformed);
-        jMenu6.add(jMenuItem5);
+        jMenuItem9.setText("Lotes por estado");
+        jMenu6.add(jMenuItem9);
 
         jMenuItem8.setText("Resumen por proyecto");
         jMenu6.add(jMenuItem8);
@@ -140,6 +145,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
+         ManzanaController p = new ManzanaController();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
@@ -183,6 +189,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }
