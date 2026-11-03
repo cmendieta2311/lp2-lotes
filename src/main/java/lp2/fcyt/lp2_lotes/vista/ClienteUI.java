@@ -20,6 +20,8 @@ public class ClienteUI extends javax.swing.JDialog {
     public ClienteUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        // Center the dialog on screen
+        this.setLocationRelativeTo(null);
     }
 
     /**
