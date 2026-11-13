@@ -4,10 +4,14 @@
  */
 package lp2.fcyt.lp2_lotes.vista;
 
+import java.io.InputStream;
 import lp2.fcyt.lp2_lotes.controlador.ClienteController;
 import lp2.fcyt.lp2_lotes.controlador.ManzanaController;
 import lp2.fcyt.lp2_lotes.controlador.ProyectoController;
+import lp2.fcyt.lp2_lotes.modelo.ReporteService;
 import lp2.fcyt.lp2_lotes.modelo.dao.Sesion;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * Ventana principal de la aplicación.
@@ -16,6 +20,7 @@ import lp2.fcyt.lp2_lotes.modelo.dao.Sesion;
  * @author cmendieta
  */
 public class GUIPrincipal extends javax.swing.JFrame {
+    private final ReporteService reporte =  new ReporteService();
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUIPrincipal.class.getName());
 
@@ -94,10 +99,12 @@ public class GUIPrincipal extends javax.swing.JFrame {
 
         jMenu6.setText("Reporte");
 
-        jMenuItem9.setText("Lotes por estado");
+        jMenuItem9.setText("exportar a pdf - Proyectos");
+        jMenuItem9.addActionListener(this::jMenuItem9ActionPerformed);
         jMenu6.add(jMenuItem9);
 
-        jMenuItem8.setText("Resumen por proyecto");
+        jMenuItem8.setText("listado de proyectos");
+        jMenuItem8.addActionListener(this::jMenuItem8ActionPerformed);
         jMenu6.add(jMenuItem8);
         jMenu6.add(jSeparator1);
 
@@ -126,7 +133,7 @@ public class GUIPrincipal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 276, Short.MAX_VALUE)
+            .addGap(0, 338, Short.MAX_VALUE)
         );
 
         pack();
@@ -147,6 +154,31 @@ public class GUIPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
          ManzanaController p = new ManzanaController();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        try {
+            // TODO add your handling code here:
+
+            JasperPrint print = reporte.generar("/reporte/list_proyecto.jrxml", null);
+            JasperViewer.viewReport(print);
+            
+           
+        } catch (Exception ex) {
+            System.getLogger(GUIPrincipal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+          try {
+            // TODO add your handling code here:
+
+             reporte.exportarPdf(this, "/reporte/list_proyecto.jrxml", null, "list_proyecto.pdf");
+          
+        } catch (Exception ex) {
+            System.getLogger(GUIPrincipal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     /**
      * @param args the command line arguments
